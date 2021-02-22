@@ -11,10 +11,10 @@ const App = () => {
             <Route path="/" exact>
                 <Home />
             </Route>
-            <Route path="/editeaza_diesel/:type/:id/:filename" exact>
+            <Route path="/editeaza_diesel/:ral_rpm/:reg_rpm/:tbaza_s/:k_m/:filename" exact>
                 <NewDieselForm />
             </Route>
-            <Route path="/editeaza_benzina/:type/:id/:filename" exact>
+            <Route path="/editeaza_benzina/:type/:id/:filename/:tur_rpm_1/:tur_rpm_2/:temp_c_1/:temp_c_2" exact>
                 <NewGasForm />
             </Route>
             <Route path="/finalizeaza" exact>

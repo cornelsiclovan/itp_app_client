@@ -15,7 +15,7 @@ const NewGasForm = () => {
     const [loadedData, setLoadedData] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-    let { type, id, filename } = useParams();
+    let { type, id, filename, tur_rpm_1, tur_rpm_2, temp_c_1, temp_c_2 } = useParams();
 
     const dataSubmitHandler = async event => {
         event.preventDefault();
@@ -30,7 +30,9 @@ const NewGasForm = () => {
                 co2: formState.inputs.co2.value,
                 co: formState.inputs.co.value,
                 coc: formState.inputs.coc.value,
-                afr: formState.inputs.afr.value
+                afr: formState.inputs.afr.value,
+                tur_rpm: tur_rpm_1,
+                temp_c: temp_c_1
             }), {'Content-Type': 'application/json'}
             );
 
@@ -64,6 +66,14 @@ const NewGasForm = () => {
             isValid: true
         },
         afr: {
+            value: '',
+            isValid: true
+        },
+        tur_rpm: {
+            value: '',
+            isValid: true
+        },
+        temp_c: {
             value: '',
             isValid: true
         }
@@ -102,12 +112,20 @@ const NewGasForm = () => {
                     afr: {
                         value: responseData.afr_1,
                         isValid: true
+                    },
+                    tur_rpm: {
+                        value: tur_rpm_1,
+                        isValid: true
+                    },
+                    temp_c: {
+                        value: temp_c_1,
+                        isValid: true
                     }
                 }, true);
             } catch (err) {console.log(err)}
         };
         fetchData();
-    }, [sendRequest, type, id]);
+    }, [sendRequest, type, id, setFormData]);
 
     if(isLoading) {
         return (
@@ -125,7 +143,7 @@ const NewGasForm = () => {
         );
     }
 
-    console.log("loadedDAta", loadedData);
+    //console.log("loadedDAta", loadedData);
     return (
         <React.Fragment>
             { !isLoading && loadedData && 
@@ -205,6 +223,28 @@ const NewGasForm = () => {
                     errorText="please enter a value"
                     onInput={inputHandler}
                     initialValue={loadedData.afr_1}
+                    initialValid={true}
+                />
+                 <Input
+                    id="tur_rpm"
+                    element="input"
+                    type="text"
+                    label="Tur.(RPM)"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    errorText="please enter a value"
+                    onInput={inputHandler}
+                    initialValue={tur_rpm_1}
+                    initialValid={true}
+                />
+                 <Input
+                    id="temp_c"
+                    element="input"
+                    type="text"
+                    label="Temp C"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    errorText="please enter a value"
+                    onInput={inputHandler}
+                    initialValue={temp_c_1}
                     initialValid={true}
                 />
                 <Button type="submit" disabled={!formState.isValid}>FINALIZEAZA</Button>
