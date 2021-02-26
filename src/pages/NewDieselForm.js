@@ -14,27 +14,28 @@ import { useForm } from '../hooks/form-hook';
 const NewDieselForm = () => {
     const [loadedData, setLoadedData] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    let { k_m, ral_rpm, reg_rpm, tbaza_s } = useParams();
+    let { filename, k_m, ral_rpm, reg_rpm, tbaza_s } = useParams();
+
 
     const [formState, inputHandler, setFormData] = useForm(
         {
             k_m : {
                 value: '',
-                isValid: false
+                isValid: true
             },
             ral_rpm: {
                 value: '',
-                isValid: false
+                isValid: true
             },
             reg_rpm: {
                 value: '',
-                isValid: false
+                isValid: true
             },
             tbaza_s: {
                 value: '',
-                isValid: false
+                isValid: true
             }
-        }, false);
+        });
     
     useEffect(() => {
         const setDataToForm = async () => {
@@ -57,24 +58,31 @@ const NewDieselForm = () => {
                         value: tbaza_s,
                         isValid: true
                     }
-                }
+                }, true
             )
         };
 
         setDataToForm();
-    }, [sendRequest, k_m, setFormData]);
+    }, [k_m, setFormData]);
 
     const dataSubmitHandler = async event => {
         event.preventDefault();
 
         try {
-            const formData = new FormData();
-            formData.append('k_m', formState.inputs.k_m.value);
-
-            await sendRequest()
-        } catch(err){}
+            await sendRequest(`http://localhost:5001/api/smoke/${filename}`, 
+            'PATCH', 
+            JSON.stringify({
+                k_m: formState.inputs.k_m.value,
+                ral_rpm: formState.inputs.ral_rpm.value,
+                reg_rpm: formState.inputs.reg_rpm.value,
+                tbaza_s: formState.inputs.tbaza_s.value
+                
+            }), {'Content-Type': 'application/json'}
+            );
+ 
+        } catch(err) {}
     }
-    
+
     
     if(isLoading) {
         return (
@@ -107,6 +115,7 @@ const NewDieselForm = () => {
                     onInput={inputHandler}
                     initialValue={ral_rpm}
                     initialValid={true}
+                    disabled={true}
                 />
                 <Input
                     id="reg_rpm"

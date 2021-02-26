@@ -5,7 +5,6 @@ import NavLinks from '../Navigation/NavLinks';
 import './MainNavigation.css';
 
 const MainNavigation = () => {
-
     return (
         <React.Fragment>
             <MainHeader>
@@ -16,7 +15,6 @@ const MainNavigation = () => {
             </MainHeader>
         </React.Fragment>
     )
-     
 };
   
 export default MainNavigation;
