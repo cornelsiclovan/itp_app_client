@@ -10,9 +10,9 @@ const inputReducer = (state, action) => {
             return {
                 ...state,
                 value: action.val,
-                isValid: validate(action.val, action.validators)
+                isValid: validate(action.val, action.validators),
             };
-        case 'TOUCH':   
+        case 'TOUCH': 
             return {
                 ...state,
                 isTouched: true
@@ -23,16 +23,15 @@ const inputReducer = (state, action) => {
 }
 
 const Input = (props) => {
-
+    
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: props.initialValue || '',
         isTouched: false,
         isValid: props.initialValid || false,
-        disabled: props.disabled || true
     });
 
     const { id, onInput } = props;
-    const { value, isValid } = inputState;
+    const { value, isValid, disabled } = inputState;
 
     useEffect(() => {
         onInput(id, value, isValid)
@@ -56,7 +55,7 @@ const Input = (props) => {
             onChange={changeHandler}
             onBlur={touchHandler}
             value={inputState.value}
-            disabled={inputState.disabled}
+            disabled={true}
         />
         ) : (
             <textarea 

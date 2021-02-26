@@ -15,9 +15,10 @@ const NewGasForm = () => {
     const [loadedData, setLoadedData] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
+
     let { type, id, filename, tur_rpm_1, tur_rpm_2, temp_c_1, temp_c_2 } = useParams();
 
-    let disabled = true;
+
 
     const dataSubmitHandler = async event => {
         event.preventDefault();
@@ -135,8 +136,7 @@ const NewGasForm = () => {
                 setFormData({
                     lambda_1: {
                         value: responseData.lambda_1,
-                        isValid: true,
-                        disabled: true
+                        isValid: true
                     },
                     lambda_2: {
                         value: responseData.lambda_2,
@@ -228,14 +228,28 @@ const NewGasForm = () => {
         );
     }
 
+    let disabled = true;
+
     const enableForm = async event => {
-        disabled = !disabled;
-        setFormData({
-            lambda_1: {
-                disabled: false
-            }
-        });
-        console.log(disabled)
+       document.getElementById("lambda_1").disabled = disabled;
+       document.getElementById("lambda_2").disabled = disabled;
+       document.getElementById("hc_1").disabled = disabled;
+       document.getElementById("hc_2").disabled = disabled;
+       document.getElementById("o2_1").disabled = disabled;
+       document.getElementById("o2_2").disabled = disabled;
+       document.getElementById("co2_1").disabled = disabled;
+       document.getElementById("co2_2").disabled = disabled;
+       document.getElementById("co_1").disabled = disabled;
+       document.getElementById("co_2").disabled = disabled;
+       document.getElementById("coc_1").disabled = disabled;
+       document.getElementById("coc_2").disabled = disabled;
+       document.getElementById("afr_1").disabled = disabled;
+       document.getElementById("afr_2").disabled = disabled;
+       document.getElementById("tur_rpm_1").disabled = disabled;
+       document.getElementById("tur_rpm_2").disabled = disabled;
+       document.getElementById("temp_c_1").disabled = disabled;
+       document.getElementById("temp_c_2").disabled = disabled;
+       disabled = !disabled;
     }
 
     //console.log("loadedDAta", loadedData);
@@ -243,8 +257,11 @@ const NewGasForm = () => {
         <React.Fragment>
             { !isLoading && loadedData && 
             <form className="gas-form" onSubmit={dataSubmitHandler}>
+                <div className="row" onClick={enableForm}>
+                   x 
+                </div>
                 <div className="row">
-                    <div className="column" onClick={enableForm}>
+                    <div className="column">
                         <Input
                             id="lambda_1"
                             element="input"
@@ -255,7 +272,6 @@ const NewGasForm = () => {
                             onInput={inputHandler}
                             initialValue={loadedData.lambda_1}
                             initialValid={true}
-                            disabled={false}
                         />
                     </div>
                     <div className="column">

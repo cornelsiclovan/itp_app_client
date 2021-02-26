@@ -99,12 +99,26 @@ const NewDieselForm = () => {
             </div>
         );
     }
+     
+    let disabled = true;
+
+    const enableForm = async event => {
+       document.getElementById("reg_rpm").disabled = disabled;
+       document.getElementById("ral_rpm").disabled = disabled;
+       document.getElementById("tbaza_s").disabled = disabled;
+       document.getElementById("k_m").disabled = disabled;
+       
+       disabled = !disabled;
+    }
 
 
     return (
         <React.Fragment>
             { !isLoading && loadedData && 
             <form className="gas-form" onSubmit={dataSubmitHandler}>
+                <div className="row" onClick={enableForm}>
+                   x 
+                </div>
                 <Input
                     id="ral_rpm"
                     element="input"
